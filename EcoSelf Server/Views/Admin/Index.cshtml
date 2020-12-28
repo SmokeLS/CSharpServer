@@ -1,0 +1,47 @@
+﻿@model IEnumerable<EcoSelf_Server.Models.Product>
+@{
+    ViewBag.Title = "Представление";
+}
+<h2>Main page</h2>
+
+<a style="width: 200px; height: 20px; display: inline-block;" asp-controller="Admin" asp-action="Add">Add</a>
+<input type="number" id="editInput" placeholder="Введите ID продукта"/>
+<a style="width: 200px; height: 20px; display: inline-block;" id="editHref" asp-controller="Admin" asp-action="Edit" asp-route-id="">Edit</a>
+<input type="number" id="deleteInput" placeholder="Введите ID продукта" />
+<a style="width: 200px; height: 20px; display: inline-block;" id="deleteHref" asp-controller="Admin" asp-action="Delete" asp-route-id="">Delete</a>
+
+
+
+<script>
+    let editInput = document.getElementById("editInput");
+    let editHref = document.getElementById("editHref");
+    editInput.addEventListener("keyup", function () {
+        editHref.setAttribute("href","/Admin/Edit/"+ this.value);
+        editHref.setAttribute("asp-route-id", this.value);
+    });
+
+    let deleteInput = document.getElementById("deleteInput");
+    let deleteHref = document.getElementById("deleteHref");
+    deleteInput.addEventListener("keyup", function () {
+        deleteHref.setAttribute("href", "/Admin/Delete/" + this.value);
+        deleteHref.setAttribute("asp-route-id", this.value);
+    });
+</script>
+
+<table class="table" border="1">
+    <tr><td>ID product</td><td>BarCode product</td><td>Name product</td><td>RecycMatr product</td><td>Desc product</td></tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.BarCode</td>
+            <td>@item.Name</td>
+            <td>@item.RecycMatr</td>
+            <td>@item.Desc</td>
+            <td>
+                <a asp-action="Edit" asp-controller="Admin" asp-route-id="@item.Id">Изменить</a> |
+                <a asp-action="Delete" asp-controller="Admin" asp-route-id="@item.Id">Удалить</a>
+            </td>
+        </tr>
+    }
+</table>
