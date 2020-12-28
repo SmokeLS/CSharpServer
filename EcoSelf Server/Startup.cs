@@ -16,8 +16,6 @@ namespace EcoSelf_Server
 {
     public class Startup
     {
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,10 +27,8 @@ namespace EcoSelf_Server
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ServerDBContex>(options => options.UseSqlServer(connection));
-
-            // установка конфигурации подключения
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => //CookieAuthenticationOptions
+                .AddCookie(options =>
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Admin/Index");
                 });
@@ -48,8 +44,8 @@ namespace EcoSelf_Server
 
             app.UseRouting();
 
-            app.UseAuthentication();    // аутентификация
-            app.UseAuthorization();     // авторизация
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
